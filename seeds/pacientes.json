@@ -1,0 +1,27 @@
+[
+  {
+    "_id": { "$oid": "66eaa0010000000000000001" },
+    "nome": "Maria Silva",
+    "email": "maria.silva@example.com",
+    "telefone": "(71) 91234-5678",
+    "endereco": "Rua das Flores, 123 - Centro - Salvador/BA",
+    "dataNascimento": { "$date": "1990-05-14T00:00:00.000Z" }
+  },
+  {
+    "_id": { "$oid": "66eaa0010000000000000002" },
+    "nome": "João Pereira",
+    "email": "joao.pereira@example.com",
+    "telefone": "(11) 99876-5432",
+    "endereco": "Av. Brasil, 456 - Jardim - São Paulo/SP",
+    "dataNascimento": { "$date": "1985-10-23T00:00:00.000Z" }
+  },
+  {
+    "_id": { "$oid": "66eaa0010000000000000003" },
+    "nome": "Carla Mendes",
+    "email": "carla.mendes@example.com",
+    "telefone": "(21) 97777-8888",
+    "endereco": "Rua do Sol, 78 - Copacabana - Rio de Janeiro/RJ",
+    "dataNascimento": { "$date": "1995-02-18T00:00:00.000Z" }
+  }
+]
+

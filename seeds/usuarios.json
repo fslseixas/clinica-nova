@@ -1,0 +1,30 @@
+[
+  {
+    "_id": { "$oid": "66eaa0020000000000000001" },
+    "nome": "Admin",
+    "email": "admin@clinicanova.com",
+    "senha": "$2a$10$JHAC7o3fK6ON/6Fhe5Zqie5fNEpXlI/GB/ObnNGuK7ztb9C3tPUIy",
+    "role": "admin"
+  },
+  {
+    "_id": { "$oid": "66eaa0020000000000000002" },
+    "nome": "Dr. João Almeida",
+    "email": "drjoao@clinicanova.com",
+    "senha": "$2a$10$JHAC7o3fK6ON/6Fhe5Zqie5fNEpXlI/GB/ObnNGuK7ztb9C3tPUIy",
+    "role": "medico"
+  },
+  {
+    "_id": { "$oid": "66eaa0020000000000000003" },
+    "nome": "Recepção",
+    "email": "recepcao@clinicanova.com",
+    "senha": "$2a$10$JHAC7o3fK6ON/6Fhe5Zqie5fNEpXlI/GB/ObnNGuK7ztb9C3tPUIy",
+    "role": "recepcionista"
+  },
+  {
+    "_id": { "$oid": "66eaa0020000000000000004" },
+    "nome": "Paciente Demo",
+    "email": "paciente@clinicanova.com",
+    "senha": "$2a$10$JHAC7o3fK6ON/6Fhe5Zqie5fNEpXlI/GB/ObnNGuK7ztb9C3tPUIy",
+    "role": "paciente"
+  }
+]

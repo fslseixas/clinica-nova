@@ -1,0 +1,20 @@
+[
+  {
+    "_id": { "$oid": "66eaa0030000000000000001" },
+    "paciente": { "$oid": "66eaa0010000000000000001" },
+    "data": { "$date": "2025-09-12T13:00:00.000Z" },
+    "descricao": "Consulta clínica geral"
+  },
+  {
+    "_id": { "$oid": "66eaa0030000000000000002" },
+    "paciente": { "$oid": "66eaa0010000000000000002" },
+    "data": { "$date": "2025-09-13T10:30:00.000Z" },
+    "descricao": "Retorno e resultados de exames"
+  },
+  {
+    "_id": { "$oid": "66eaa0030000000000000003" },
+    "paciente": { "$oid": "66eaa0010000000000000003" },
+    "data": { "$date": "2025-09-14T16:15:00.000Z" },
+    "descricao": "Avaliação dermatológica"
+  }
+]
