@@ -1,0 +1,270 @@
+{
+  "info": {
+    "name": "Clinica Nova API",
+    "description": "Collection completa para testar a API da Clínica Nova",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:3000",
+      "type": "string"
+    },
+    {
+      "key": "auth_token",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "user_email",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "user_id",
+      "value": "",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "Health Check",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/api/health",
+          "host": ["{{base_url}}"],
+          "path": ["api", "health"]
+        },
+        "description": "Verificar se API está online"
+      },
+      "response": []
+    },
+    {
+      "name": "Cadastro de Paciente",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"nome\": \"João Santos\",\n  \"email\": \"joao.santos@email.com\",\n  \"senha\": \"654321\",\n  \"telefone\": \"(71) 97777-6666\",\n  \"dataNascimento\": \"1985-05-15\",\n  \"endereco\": {\n    \"cep\": \"40110000\",\n    \"logradouro\": \"Avenida Sete de Setembro\",\n    \"numero\": \"456\",\n    \"bairro\": \"Barra\",\n    \"cidade\": \"Salvador\",\n    \"estado\": \"BA\",\n    \"uf\": \"BA\"\n  }\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/pacientes/cadastro",
+          "host": ["{{base_url}}"],
+          "path": ["pacientes", "cadastro"]
+        },
+        "description": "Criar novo paciente"
+      },
+      "response": []
+    },
+    {
+      "name": "Login do Paciente",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "if (pm.response.code === 200) {",
+              "    const response = pm.response.json();",
+              "    pm.collectionVariables.set(\"auth_token\", response.token);",
+              "    pm.collectionVariables.set(\"user_email\", response.paciente.email);",
+              "    pm.collectionVariables.set(\"user_id\", response.paciente._id);",
+              "    pm.environment.set(\"auth_token\", response.token);",
+              "    pm.environment.set(\"user_email\", response.paciente.email);",
+              "    console.log(\"Token salvo: \" + response.token);",
+              "}"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"email\": \"{{user_email}}\",\n  \"senha\": \"654321\"\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/pacientes/login",
+          "host": ["{{base_url}}"],
+          "path": ["pacientes", "login"]
+        },
+        "description": "Fazer login com paciente cadastrado"
+      },
+      "response": []
+    },
+    {
+      "name": "Meu Perfil",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{auth_token}}"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/pacientes/me",
+          "host": ["{{base_url}}"],
+          "path": ["pacientes", "me"]
+        },
+        "description": "Buscar informações do perfil do paciente autenticado"
+      },
+      "response": []
+    },
+    {
+      "name": "Atualizar Perfil",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{auth_token}}"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"telefone\": \"(71) 98888-9999\",\n  \"endereco\": {\n    \"numero\": \"789\",\n    \"complemento\": \"Apto 302\"\n  }\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/pacientes/atualizar",
+          "host": ["{{base_url}}"],
+          "path": ["pacientes", "atualizar"]
+        },
+        "description": "Atualizar informações do perfil"
+      },
+      "response": []
+    },
+    {
+      "name": "Buscar Médicos",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{auth_token}}"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/medicos?especialidade=Cardiologia",
+          "host": ["{{base_url}}"],
+          "path": ["medicos"],
+          "query": [
+            {
+              "key": "especialidade",
+              "value": "Cardiologia"
+            }
+          ]
+        },
+        "description": "Buscar médicos por especialidade"
+      },
+      "response": []
+    },
+    {
+      "name": "Buscar Horários Disponíveis",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{auth_token}}"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/agendamentos/horarios?medico=12345&data=2024-01-25",
+          "host": ["{{base_url}}"],
+          "path": ["agendamentos", "horarios"],
+          "query": [
+            {
+              "key": "medico",
+              "value": "12345"
+            },
+            {
+              "key": "data",
+              "value": "2024-01-25"
+            }
+          ]
+        },
+        "description": "Buscar horários disponíveis para agendamento"
+      },
+      "response": []
+    },
+    {
+      "name": "Criar Agendamento",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{auth_token}}"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"emailPaciente\": \"{{user_email}}\",\n  \"medico\": \"Dra. Ana Costa\",\n  \"data\": \"2024-01-25\",\n  \"hora\": \"10:30\",\n  \"especialidade\": \"Cardiologia\"\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/agendamentos",
+          "host": ["{{base_url}}"],
+          "path": ["agendamentos"]
+        },
+        "description": "Criar novo agendamento"
+      },
+      "response": []
+    },
+    {
+      "name": "Listar Agendamentos",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{auth_token}}"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/agendamentos",
+          "host": ["{{base_url}}"],
+          "path": ["agendamentos"]
+        },
+        "description": "Listar todos os agendamentos do paciente"
+      },
+      "response": []
+    },
+    {
+      "name": "Buscar CEP",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/utils/cep/40110000",
+          "host": ["{{base_url}}"],
+          "path": ["utils", "cep", "40110000"]
+        },
+        "description": "Buscar endereço por CEP"
+      },
+      "response": []
+    }
+  ]
+}
