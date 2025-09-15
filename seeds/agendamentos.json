@@ -1,20 +1,97 @@
 [
   {
-    "_id": { "$oid": "66eaa0030000000000000001" },
-    "paciente": { "$oid": "66eaa0010000000000000001" },
-    "data": { "$date": "2025-09-12T13:00:00.000Z" },
-    "descricao": "Consulta clínica geral"
+    "nomeCompleto": "João Silva Santos",
+    "email": "joao.silva@email.com",
+    "senha": "$2b$10$hashedPassword123",
+    "telefone": "(11) 99999-9999",
+    "endereco": {
+      "cep": "01234-567",
+      "logradouro": "Rua das Flores",
+      "numero": "123",
+      "complemento": "Apto 45",
+      "bairro": "Jardim Paulista",
+      "cidade": "São Paulo",
+      "estado": "São Paulo",
+      "uf": "SP"
+    },
+    "dataNascimento": "1985-05-15T00:00:00.000Z",
+    "dataCadastro": "2024-01-15T10:30:00.000Z",
+    "ativo": true
   },
   {
-    "_id": { "$oid": "66eaa0030000000000000002" },
-    "paciente": { "$oid": "66eaa0010000000000000002" },
-    "data": { "$date": "2025-09-13T10:30:00.000Z" },
-    "descricao": "Retorno e resultados de exames"
+    "nomeCompleto": "Maria Oliveira Costa",
+    "email": "maria.oliveira@email.com",
+    "senha": "$2b$10$hashedPassword456",
+    "telefone": "(11) 98888-8888",
+    "endereco": {
+      "cep": "04567-890",
+      "logradouro": "Avenida Brasil",
+      "numero": "456",
+      "complemento": "Casa 2",
+      "bairro": "Moema",
+      "cidade": "São Paulo",
+      "estado": "São Paulo",
+      "uf": "SP"
+    },
+    "dataNascimento": "1990-08-22T00:00:00.000Z",
+    "dataCadastro": "2024-01-16T14:20:00.000Z",
+    "ativo": true
   },
   {
-    "_id": { "$oid": "66eaa0030000000000000003" },
-    "paciente": { "$oid": "66eaa0010000000000000003" },
-    "data": { "$date": "2025-09-14T16:15:00.000Z" },
-    "descricao": "Avaliação dermatológica"
+    "nomeCompleto": "Pedro Almeida Souza",
+    "email": "pedro.souza@email.com",
+    "senha": "$2b$10$hashedPassword789",
+    "telefone": "(11) 97777-7777",
+    "endereco": {
+      "cep": "07890-123",
+      "logradouro": "Rua das Palmeiras",
+      "numero": "789",
+      "complemento": "Bloco B",
+      "bairro": "Vila Madalena",
+      "cidade": "São Paulo",
+      "estado": "São Paulo",
+      "uf": "SP"
+    },
+    "dataNascimento": "1982-12-03T00:00:00.000Z",
+    "dataCadastro": "2024-01-17T09:15:00.000Z",
+    "ativo": true
+  },
+  {
+    "nomeCompleto": "Ana Paula Rodrigues",
+    "email": "ana.rodrigues@email.com",
+    "senha": "$2b$10$hashedPassword012",
+    "telefone": "(71) 96666-6666",
+    "endereco": {
+      "cep": "40123-456",
+      "logradouro": "Avenida Sete de Setembro",
+      "numero": "321",
+      "complemento": "Sala 501",
+      "bairro": "Barra",
+      "cidade": "Salvador",
+      "estado": "Bahia",
+      "uf": "BA"
+    },
+    "dataNascimento": "1995-03-18T00:00:00.000Z",
+    "dataCadastro": "2024-01-18T16:40:00.000Z",
+    "ativo": true
+  },
+  {
+    "nomeCompleto": "Carlos Eduardo Lima",
+    "email": "carlos.lima@email.com",
+    "senha": "$2b$10$hashedPassword345",
+    "telefone": "(71) 95555-5555",
+    "endereco": {
+      "cep": "40250-123",
+      "logradouro": "Rua Chile",
+      "numero": "159",
+      "complemento": "Loja 3",
+      "bairro": "Centro",
+      "cidade": "Salvador",
+      "estado": "Bahia",
+      "uf": "BA"
+    },
+    "dataNascimento": "1978-07-30T00:00:00.000Z",
+    "dataCadastro": "2024-01-19T11:25:00.000Z",
+    "ativo": true
   }
 ]

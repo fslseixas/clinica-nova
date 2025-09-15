@@ -1,13 +1,13 @@
-const Paciente = require('../models/Paciente');
+ const Paciente = require('../models/Paciente');
 const jwt = require('jsonwebtoken');
 
-// ✅ Função para gerar token (que estava faltando)
+// Função para gerar token
 async function gerarToken(paciente) {
   return jwt.sign(
     { 
       userId: paciente._id, 
       email: paciente.email,
-      role: 'paciente' // ✅ Adicionando role para o authMiddleware
+      role: 'paciente'
     },
     process.env.JWT_SECRET,
     { expiresIn: '24h' }
@@ -24,7 +24,7 @@ exports.cadastrar = async (req, res) => {
       return res.status(409).json({ message: 'Email já cadastrado' });
     }
 
-    // Criar novo paciente (o hash é feito automaticamente no pre-save)
+    // Criar novo paciente
     const paciente = new Paciente({
       nome,
       email,
@@ -68,7 +68,6 @@ exports.cadastrar = async (req, res) => {
   }
 };
 
-// ✅ Adicione também as outras funções que suas rotas precisam
 exports.login = async (req, res) => {
   try {
     const { email, senha } = req.body;
@@ -79,13 +78,13 @@ exports.login = async (req, res) => {
       return res.status(401).json({ message: 'Credenciais inválidas' });
     }
 
-    // Verificar senha usando o método do model
+    // Verificar senha
     const senhaValida = await paciente.compararSenha(senha);
     if (!senhaValida) {
       return res.status(401).json({ message: 'Credenciais inválidas' });
     }
 
-    // Gerar token
+    // Gerar token COM ROLE
     const token = await gerarToken(paciente);
 
     res.json({
@@ -109,7 +108,6 @@ exports.login = async (req, res) => {
 
 exports.getPerfil = async (req, res) => {
   try {
-    // req.user deve ser definido pelo authMiddleware
     const paciente = await Paciente.findById(req.user.userId).select('-senha');
     
     if (!paciente) {

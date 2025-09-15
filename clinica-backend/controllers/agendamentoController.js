@@ -1,11 +1,11 @@
 const Agendamento = require("../models/Agendamento");
 const Paciente = require("../models/Paciente");
-const getWeather = require("../utils/weather");
+const WeatherUtils = require("../utils/weather"); // corrigido
 require("dotenv").config();
 
 exports.criarAgendamento = async (req, res) => {
   try {
-    const { emailPaciente, medico, data, hora } = req.body;
+    const { emailPaciente, medico, data, hora, especialidade, cidade } = req.body;
 
     // Verificar se o paciente existe
     const paciente = await Paciente.findOne({ email: emailPaciente });
@@ -16,16 +16,15 @@ exports.criarAgendamento = async (req, res) => {
       });
     }
 
-    // Buscar previsão do tempo para a data do agendamento
+    // Buscar previsão do tempo
     let previsaoTempo = null;
     try {
-      previsaoTempo = await getWeather(process.env.OPENWEATHER_API_KEY, data);
+      previsaoTempo = await WeatherUtils.getPrevisaoTempo(cidade || "Salvador", data);
     } catch (weatherError) {
-      console.error("Erro ao buscar previsão do tempo:", weatherError);
-      // Continua mesmo sem previsão
+      console.error("Erro ao buscar previsão do tempo:", weatherError.message);
     }
 
-    // Verificar se já existe agendamento no mesmo horário
+    // Verificar se já existe agendamento
     const agendamentoExistente = await Agendamento.findOne({
       medico,
       data,
@@ -45,13 +44,15 @@ exports.criarAgendamento = async (req, res) => {
       medico,
       data: new Date(data),
       hora,
+      especialidade,
+      cidade,
       previsaoTempo,
       status: "agendado"
     });
 
     await agendamento.save();
 
-    // Popular os dados do paciente para a resposta
+    // Popular dados do paciente
     const agendamentoPopulado = await Agendamento.findById(agendamento._id)
       .populate("paciente", "nome email telefone");
 
@@ -156,11 +157,11 @@ exports.obterAgendamento = async (req, res) => {
 exports.atualizarAgendamento = async (req, res) => {
   try {
     const { id } = req.params;
-    const { medico, data, hora, status } = req.body;
+    const { medico, data, hora, status, especialidade, cidade } = req.body;
 
     const agendamento = await Agendamento.findByIdAndUpdate(
       id,
-      { medico, data, hora, status },
+      { medico, data, hora, status, especialidade, cidade },
       { new: true, runValidators: true }
     ).populate("paciente", "nome email telefone");
 

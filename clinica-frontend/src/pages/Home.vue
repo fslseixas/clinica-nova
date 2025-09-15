@@ -7,7 +7,7 @@
 
     <div class="content-container">
       <div class="left-panel">
-        <!-- Seção de Login do Paciente - MANTIDO ORIGINAL -->
+        <!-- Seção de Login do Paciente -->
         <div class="login-section">
           <h3><i class="fas fa-sign-in-alt"></i> Login do Paciente</h3>
           <form @submit.prevent="login">
@@ -28,11 +28,11 @@
       </div>
 
       <div class="right-panel">
-        <!-- Seção de Cadastro - MANTIDO O ESTILO ORIGINAL com campos adicionais -->
+        <!-- Seção de Cadastro -->
         <div class="login-section">
           <h3><i class="fas fa-user-plus"></i> Cadastro de Paciente</h3>
           <form @submit.prevent="registerPatient">
-            <!-- Campos principais (mantidos do original) -->
+            <!-- Campos principais -->
             <div class="input-group">
               <i class="fas fa-user"></i>
               <input type="text" v-model="nome" placeholder="Nome Completo" required />
@@ -46,7 +46,7 @@
               <input type="password" v-model="senha" placeholder="Senha" required />
             </div>
 
-            <!-- Campos adicionais (mantendo o mesmo estilo) -->
+            <!-- Campos adicionais -->
             <div class="input-group">
               <i class="fas fa-phone"></i>
               <input type="tel" v-model="telefone" placeholder="Telefone" />
@@ -218,18 +218,38 @@ export default {
 
     async login() {
       try {
-        const pacientes = JSON.parse(localStorage.getItem('pacientes') || '[]');
-        const paciente = pacientes.find(p => p.email === this.loginEmail && p.senha === this.loginSenha);
+        console.log('📤 Tentando fazer login...');
+        console.log('🔍 Email:', this.loginEmail);
+        console.log('🔍 Senha:', this.loginSenha);
         
-        if (paciente) {
-          localStorage.setItem('pacienteLogado', JSON.stringify(paciente));
-          this.$router.push('/pacientes');
-        } else {
-          alert('E-mail ou senha incorretos!');
-        }
+        // ✅ CORRETO - Faz request para o backend real
+        const response = await api.post('/pacientes/login', {
+          email: this.loginEmail.trim(),
+          senha: this.loginSenha.trim()
+        });
+        
+        console.log('✅ Login bem-sucedido:', response.data);
+        
+        // Salva o token e dados do paciente
+        localStorage.setItem('token', response.data.token);
+        localStorage.setItem('pacienteLogado', JSON.stringify(response.data.paciente));
+        localStorage.setItem('user_email', response.data.paciente.email);
+        
+        alert('Login realizado com sucesso!');
+        this.$router.push('/pacientes');
+        
       } catch (error) {
-        alert('Erro ao fazer login!');
-        console.error(error);
+        console.error('❌ Erro no login:', error);
+        console.log('📊 Status:', error.response?.status);
+        console.log('📋 Dados:', error.response?.data);
+        
+        if (error.response?.status === 401) {
+          alert('Email ou senha incorretos!');
+        } else if (error.response?.status === 500) {
+          alert('Erro no servidor. Tente novamente.');
+        } else {
+          alert('Erro ao fazer login. Verifique o console.');
+        }
       }
     },
     

@@ -3,8 +3,8 @@ const router = express.Router();
 const agendamentoController = require("../controllers/agendamentoController");
 const authMiddleware = require("../middlewares/authMiddleware");
 
-// Criar agendamento (apenas secretaria)
-router.post("/", authMiddleware(["secretaria"]), agendamentoController.criarAgendamento);
+// Criar agendamento (secretaria e pacientes)
+router.post("/", authMiddleware(["secretaria", "paciente"]), agendamentoController.criarAgendamento);
 
 // Listar meus agendamentos (paciente ou médico)
 router.get("/meus", authMiddleware(["paciente", "medico"]), agendamentoController.meusAgendamentos);

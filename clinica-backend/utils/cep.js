@@ -10,7 +10,10 @@ class CEPUtils {
         throw new Error('CEP deve ter 8 dígitos');
       }
 
-      const response = await axios.get(`https://viacep.com.br/ws/${cepLimpo}/json/`);
+      // URL corretamente formatada - sem espaços antes de https
+      const url = `https://viacep.com.br/ws/${cepLimpo}/json/`;
+      
+      const response = await axios.get(url);
       
       if (response.data.erro) {
         throw new Error('CEP não encontrado');
@@ -18,12 +21,12 @@ class CEPUtils {
 
       return {
         cep: response.data.cep,
-        logradouro: response.data.logradouro,
-        complemento: response.data.complemento,
-        bairro: response.data.bairro,
-        cidade: response.data.localidade,
-        estado: response.data.uf,
-        uf: response.data.uf
+        logradouro: response.data.logradouro || '',
+        complemento: response.data.complemento || '',
+        bairro: response.data.bairro || '',
+        cidade: response.data.localidade || '',
+        estado: response.data.uf || '',
+        uf: response.data.uf || ''
       };
     } catch (error) {
       console.error('Erro ao buscar CEP:', error.message);

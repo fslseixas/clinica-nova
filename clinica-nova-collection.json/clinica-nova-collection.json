@@ -1,7 +1,7 @@
-{
+ {
   "info": {
-    "name": "Clinica Nova API",
-    "description": "Collection completa para testar a API da Clínica Nova",
+    "name": "Sistema Clínica Médica - API Completa",
+    "description": "Collection completa para testar o sistema de clínica médica com pacientes, agendamentos e utils",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
   },
   "variable": [
@@ -16,19 +16,29 @@
       "type": "string"
     },
     {
-      "key": "user_email",
+      "key": "paciente_email",
+      "value": "carlos.lima@email.com",
+      "type": "string"
+    },
+    {
+      "key": "paciente_id",
       "value": "",
       "type": "string"
     },
     {
-      "key": "user_id",
+      "key": "consulta_id",
       "value": "",
+      "type": "string"
+    },
+    {
+      "key": "medico_nome",
+      "value": "Dra. Ana Costa",
       "type": "string"
     }
   ],
   "item": [
     {
-      "name": "Health Check",
+      "name": "✅ Health Check - Verificar API",
       "request": {
         "method": "GET",
         "header": [],
@@ -42,7 +52,7 @@
       "response": []
     },
     {
-      "name": "Cadastro de Paciente",
+      "name": "👤 Cadastro - Novo Paciente",
       "request": {
         "method": "POST",
         "header": [
@@ -53,38 +63,19 @@
         ],
         "body": {
           "mode": "raw",
-          "raw": "{\n  \"nome\": \"João Santos\",\n  \"email\": \"joao.santos@email.com\",\n  \"senha\": \"654321\",\n  \"telefone\": \"(71) 97777-6666\",\n  \"dataNascimento\": \"1985-05-15\",\n  \"endereco\": {\n    \"cep\": \"40110000\",\n    \"logradouro\": \"Avenida Sete de Setembro\",\n    \"numero\": \"456\",\n    \"bairro\": \"Barra\",\n    \"cidade\": \"Salvador\",\n    \"estado\": \"BA\",\n    \"uf\": \"BA\"\n  }\n}"
+          "raw": "{\n  \"nome\": \"Carlos Eduardo Lima\",\n  \"email\": \"{{paciente_email}}\",\n  \"senha\": \"senha123\",\n  \"telefone\": \"(71) 95555-5555\",\n  \"dataNascimento\": \"1978-07-30\",\n  \"endereco\": {\n    \"cep\": \"40250-123\",\n    \"logradouro\": \"Rua Chile\",\n    \"numero\": \"159\",\n    \"bairro\": \"Centro\",\n    \"cidade\": \"Salvador\",\n    \"estado\": \"Bahia\",\n    \"uf\": \"BA\"\n  }\n}"
         },
         "url": {
           "raw": "{{base_url}}/pacientes/cadastro",
           "host": ["{{base_url}}"],
           "path": ["pacientes", "cadastro"]
         },
-        "description": "Criar novo paciente"
+        "description": "Criar novo paciente no sistema"
       },
       "response": []
     },
     {
-      "name": "Login do Paciente",
-      "event": [
-        {
-          "listen": "test",
-          "script": {
-            "exec": [
-              "if (pm.response.code === 200) {",
-              "    const response = pm.response.json();",
-              "    pm.collectionVariables.set(\"auth_token\", response.token);",
-              "    pm.collectionVariables.set(\"user_email\", response.paciente.email);",
-              "    pm.collectionVariables.set(\"user_id\", response.paciente._id);",
-              "    pm.environment.set(\"auth_token\", response.token);",
-              "    pm.environment.set(\"user_email\", response.paciente.email);",
-              "    console.log(\"Token salvo: \" + response.token);",
-              "}"
-            ],
-            "type": "text/javascript"
-          }
-        }
-      ],
+      "name": "🔐 Login - Autenticar Paciente",
       "request": {
         "method": "POST",
         "header": [
@@ -95,7 +86,7 @@
         ],
         "body": {
           "mode": "raw",
-          "raw": "{\n  \"email\": \"{{user_email}}\",\n  \"senha\": \"654321\"\n}"
+          "raw": "{\n  \"email\": \"{{paciente_email}}\",\n  \"senha\": \"senha123\"\n}"
         },
         "url": {
           "raw": "{{base_url}}/pacientes/login",
@@ -107,7 +98,7 @@
       "response": []
     },
     {
-      "name": "Meu Perfil",
+      "name": "📋 Perfil - Buscar Meus Dados",
       "request": {
         "method": "GET",
         "header": [
@@ -126,7 +117,7 @@
       "response": []
     },
     {
-      "name": "Atualizar Perfil",
+      "name": "✏️ Perfil - Atualizar Meus Dados",
       "request": {
         "method": "PUT",
         "header": [
@@ -141,73 +132,19 @@
         ],
         "body": {
           "mode": "raw",
-          "raw": "{\n  \"telefone\": \"(71) 98888-9999\",\n  \"endereco\": {\n    \"numero\": \"789\",\n    \"complemento\": \"Apto 302\"\n  }\n}"
+          "raw": "{\n  \"telefone\": \"(71) 97777-8888\",\n  \"endereco\": {\n    \"numero\": \"200\",\n    \"complemento\": \"Sala 101\"\n  }\n}"
         },
         "url": {
-          "raw": "{{base_url}}/pacientes/atualizar",
+          "raw": "{{base_url}}/pacientes/me",
           "host": ["{{base_url}}"],
-          "path": ["pacientes", "atualizar"]
+          "path": ["pacientes", "me"]
         },
         "description": "Atualizar informações do perfil"
       },
       "response": []
     },
     {
-      "name": "Buscar Médicos",
-      "request": {
-        "method": "GET",
-        "header": [
-          {
-            "key": "Authorization",
-            "value": "Bearer {{auth_token}}"
-          }
-        ],
-        "url": {
-          "raw": "{{base_url}}/medicos?especialidade=Cardiologia",
-          "host": ["{{base_url}}"],
-          "path": ["medicos"],
-          "query": [
-            {
-              "key": "especialidade",
-              "value": "Cardiologia"
-            }
-          ]
-        },
-        "description": "Buscar médicos por especialidade"
-      },
-      "response": []
-    },
-    {
-      "name": "Buscar Horários Disponíveis",
-      "request": {
-        "method": "GET",
-        "header": [
-          {
-            "key": "Authorization",
-            "value": "Bearer {{auth_token}}"
-          }
-        ],
-        "url": {
-          "raw": "{{base_url}}/agendamentos/horarios?medico=12345&data=2024-01-25",
-          "host": ["{{base_url}}"],
-          "path": ["agendamentos", "horarios"],
-          "query": [
-            {
-              "key": "medico",
-              "value": "12345"
-            },
-            {
-              "key": "data",
-              "value": "2024-01-25"
-            }
-          ]
-        },
-        "description": "Buscar horários disponíveis para agendamento"
-      },
-      "response": []
-    },
-    {
-      "name": "Criar Agendamento",
+      "name": "📅 Agendamento - Nova Consulta",
       "request": {
         "method": "POST",
         "header": [
@@ -222,19 +159,19 @@
         ],
         "body": {
           "mode": "raw",
-          "raw": "{\n  \"emailPaciente\": \"{{user_email}}\",\n  \"medico\": \"Dra. Ana Costa\",\n  \"data\": \"2024-01-25\",\n  \"hora\": \"10:30\",\n  \"especialidade\": \"Cardiologia\"\n}"
+          "raw": "{\n  \"emailPaciente\": \"{{paciente_email}}\",\n  \"medico\": \"{{medico_nome}}\",\n  \"data\": \"2024-02-15\",\n  \"hora\": \"14:30\",\n  \"especialidade\": \"Cardiologia\"\n}"
         },
         "url": {
           "raw": "{{base_url}}/agendamentos",
           "host": ["{{base_url}}"],
           "path": ["agendamentos"]
         },
-        "description": "Criar novo agendamento"
+        "description": "Criar novo agendamento de consulta"
       },
       "response": []
     },
     {
-      "name": "Listar Agendamentos",
+      "name": "📋 Agendamento - Listar Todos",
       "request": {
         "method": "GET",
         "header": [
@@ -248,23 +185,129 @@
           "host": ["{{base_url}}"],
           "path": ["agendamentos"]
         },
-        "description": "Listar todos os agendamentos do paciente"
+        "description": "Listar todos os agendamentos do sistema"
       },
       "response": []
     },
     {
-      "name": "Buscar CEP",
+      "name": "👤 Agendamento - Minhas Consultas",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{auth_token}}"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/agendamentos/meus",
+          "host": ["{{base_url}}"],
+          "path": ["agendamentos", "meus"]
+        },
+        "description": "Listar apenas os agendamentos do paciente autenticado"
+      },
+      "response": []
+    },
+    {
+      "name": "✏️ Agendamento - Atualizar Consulta",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{auth_token}}"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"hora\": \"15:00\",\n  \"especialidade\": \"Clínico Geral\"\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/agendamentos/{{consulta_id}}",
+          "host": ["{{base_url}}"],
+          "path": ["agendamentos", "{{consulta_id}}"]
+        },
+        "description": "Atualizar informações do agendamento"
+      },
+      "response": []
+    },
+    {
+      "name": "❌ Agendamento - Cancelar Consulta",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{auth_token}}"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/agendamentos/{{consulta_id}}",
+          "host": ["{{base_url}}"],
+          "path": ["agendamentos", "{{consulta_id}}"]
+        },
+        "description": "Cancelar agendamento"
+      },
+      "response": []
+    },
+    {
+      "name": "📍 Utils - Buscar Endereço por CEP",
       "request": {
         "method": "GET",
         "header": [],
         "url": {
-          "raw": "{{base_url}}/utils/cep/40110000",
+          "raw": "{{base_url}}/utils/cep/40250123",
           "host": ["{{base_url}}"],
-          "path": ["utils", "cep", "40110000"]
+          "path": ["utils", "cep", "40250123"]
         },
-        "description": "Buscar endereço por CEP"
+        "description": "Buscar endereço completo por CEP"
       },
       "response": []
+    },
+    {
+      "name": "🆘 Utils - Buscar CEP Inválido",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/utils/cep/00000000",
+          "host": ["{{base_url}}"],
+          "path": ["utils", "cep", "00000000"]
+        },
+        "description": "Testar busca com CEP inválido"
+      },
+      "response": []
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "exec": [
+          "console.log('Iniciando requisição para: ' + pm.request.url);"
+        ],
+        "type": "text/javascript"
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "exec": [
+          "// Tests globais para todas as requisições",
+          "pm.test(\"Tempo de resposta menor que 2000ms\", function () {",
+          "    pm.expect(pm.response.responseTime).to.be.below(2000);",
+          "});",
+          "",
+          "pm.test(\"Headers devem conter content-type\", function () {",
+          "    pm.response.to.have.header(\"Content-Type\");",
+          "});"
+        ],
+        "type": "text/javascript"
+      }
     }
   ]
 }

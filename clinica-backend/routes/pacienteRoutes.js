@@ -1,5 +1,4 @@
-// routes/pacienteRoutes.js
-const express = require('express');
+ const express = require('express');
 const router = express.Router();
 const pacienteController = require('../controllers/pacienteController');
 const authMiddleware = require('../middlewares/authMiddleware');
@@ -8,7 +7,7 @@ const authMiddleware = require('../middlewares/authMiddleware');
 router.post('/cadastro', pacienteController.cadastrar);
 router.post('/login', pacienteController.login);
 
-// Rotas protegidas
-router.get('/me', authMiddleware, pacienteController.getPerfil);
+// Rota protegida - APENAS para pacientes
+router.get('/me', authMiddleware(['paciente']), pacienteController.getPerfil);
 
 module.exports = router;

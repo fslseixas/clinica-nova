@@ -1,6 +1,5 @@
-const jwt = require('jsonwebtoken');
+ const jwt = require('jsonwebtoken');
 
-// ✅ CORREÇÃO: Agora aceita parâmetros de roles
 const authMiddleware = (allowedRoles = []) => {
   return async (req, res, next) => {
     try {
@@ -12,12 +11,12 @@ const authMiddleware = (allowedRoles = []) => {
 
       const decoded = jwt.verify(token, process.env.JWT_SECRET);
       
-      // ✅ Verifica se o usuário tem a role permitida
+      // Verifica se o usuário tem a role permitida
       if (allowedRoles.length > 0 && !allowedRoles.includes(decoded.role)) {
         return res.status(403).json({ message: 'Acesso negado para sua role' });
       }
 
-      req.user = decoded; // ✅ Agora salva o usuário completo
+      req.user = decoded;
       next();
     } catch (error) {
       res.status(401).json({ message: 'Token inválido' });

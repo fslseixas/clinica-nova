@@ -291,21 +291,37 @@ clinica-nova/
 │   ├── .env
 │   ├── server.js
 │   └── package.json
+│
 ├── clinica-frontend/
 │   ├── src/
 │   │   ├── components/
+│   │   │   └── Navbar.vue
 │   │   ├── pages/
+│   │   │   ├── Agendamentos.vue
+│   │   │   ├── Area.Secretaria.vue
 │   │   │   ├── Home.vue
+│   │   │   ├── MeusAgendamentos.vue
 │   │   │   ├── Pacientes.vue
-│   │   │   ├── Secretaria.vue
-│   │   │   └── Agendamentos.vue
+│   │   │   └── Secretaria.vue
 │   │   ├── services/
 │   │   │   └── api.js
 │   │   ├── router/
 │   │   │   └── index.js
-│   │   └── App.vue
+│   │   ├── App.vue
+│   │   └── main.js
+│   ├── public/
+│   │   └── vite.svg
+│   ├── index.html
 │   └── package.json
-└── README.md
+│
+├── seeds/
+│   ├── agendamentos.json
+│   ├── pacientes.json
+│   └── usuarios.json
+│
+├── clinica-nova-collection.json   # Postman/Insomnia
+├── README.md
+
 🤝 Contribuição
 Faça o fork do projeto
 
@@ -321,9 +337,9 @@ Abra um Pull Request
 Este projeto está sob a licença MIT. Veja o arquivo LICENSE para detalhes.
 
 🆘 Suporte
-Para dúvidas e suporte:
+Para dúvidas e suporte: 71993108700
 
-📧 Email: suporte@clinicanova.com
+📧 Email: fsl.seixas@gmail.com
 
 🐛 Issues: GitHub Issues
 
